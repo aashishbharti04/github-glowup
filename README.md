@@ -124,9 +124,10 @@ that recomputes the owner's Power Score weekly and commits
 
 ## 📦 Publishing (maintainers)
 
-Releases publish to PyPI automatically via
-[`publish.yml`](.github/workflows/publish.yml) using **Trusted Publishing** — no
-API tokens stored anywhere.
+Publishing to PyPI is a **manual** action via
+[`publish.yml`](.github/workflows/publish.yml) (run it from the Actions tab),
+using **Trusted Publishing** — no API tokens stored anywhere. Cutting a GitHub
+Release does not auto-publish.
 
 **One-time PyPI setup:**
 
