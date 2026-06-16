@@ -9,6 +9,11 @@
   <img alt="Zero deps" src="https://img.shields.io/badge/Dependencies-ZERO-FF2E97?style=for-the-badge&labelColor=0D1117">
   <img alt="License" src="https://img.shields.io/badge/License-MIT-9D4EDD?style=for-the-badge&labelColor=0D1117">
   <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/aashishbharti04/github-glowup/ci.yml?style=for-the-badge&logo=githubactions&logoColor=white&labelColor=0D1117&color=00FFA3">
+  <img alt="PyPI" src="https://img.shields.io/pypi/v/github-glowup?style=for-the-badge&logo=pypi&logoColor=white&labelColor=0D1117&color=00E5FF">
+</p>
+
+<p>
+  <img alt="Profile Power" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/aashishbharti04/github-glowup/main/.github/badges/score.json&style=for-the-badge&labelColor=0D1117">
 </p>
 
 <p><i>A pure-stdlib CLI that grades a GitHub profile out of 100 and tells you exactly how to earn more achievements.</i></p>
@@ -105,6 +110,36 @@ All high-volume metrics use a diminishing-returns curve, so the score stays mean
 pip install -e ".[dev]"
 pytest -q
 ```
+
+## 🏅 Live score badge
+
+This repo ships a workflow ([`score-badge.yml`](.github/workflows/score-badge.yml))
+that recomputes the owner's Power Score weekly and commits
+[`.github/badges/score.json`](.github/badges/score.json). Drop this anywhere
+(README, profile) to show a live badge — swap in your username:
+
+```md
+![Profile Power](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/aashishbharti04/github-glowup/main/.github/badges/score.json)
+```
+
+## 📦 Publishing (maintainers)
+
+Releases publish to PyPI automatically via
+[`publish.yml`](.github/workflows/publish.yml) using **Trusted Publishing** — no
+API tokens stored anywhere.
+
+**One-time PyPI setup:**
+
+1. Sign in at [pypi.org](https://pypi.org) → *Your projects* → *Publishing*.
+2. Add a **pending publisher** with:
+   - Project name: `github-glowup`
+   - Owner: `aashishbharti04`
+   - Repository: `github-glowup`
+   - Workflow: `publish.yml`
+   - Environment: `pypi`
+3. On GitHub, create a Release (tag `v0.1.0`). The workflow builds and uploads.
+
+After that, anyone can `pip install github-glowup`.
 
 ## 🤝 Contributing
 

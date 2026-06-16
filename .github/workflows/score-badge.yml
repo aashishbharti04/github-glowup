@@ -1,0 +1,51 @@
+name: Profile Score Badge
+
+# Recomputes the profile Power Score and commits the badge JSON, which
+# shields.io renders via the endpoint badge in README.md.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # every Monday 06:00 UTC
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "src/gpp/**"
+      - ".github/workflows/score-badge.yml"
+      - "scripts/make_badge.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: score-badge
+  cancel-in-progress: true
+
+jobs:
+  badge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install
+        run: pip install -e .
+      - name: Compute score badge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p .github/badges
+          python scripts/make_badge.py "${{ github.repository_owner }}" > .github/badges/score.json
+          cat .github/badges/score.json
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/badges/score.json
+          if git diff --staged --quiet; then
+            echo "No badge change."
+          else
+            git commit -m "chore: update profile score badge [skip ci]"
+            git push
+          fi
